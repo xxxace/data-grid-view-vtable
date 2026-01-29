@@ -13,7 +13,7 @@ body {
   margin: 0px;
   box-sizing: border-box;
   outline: none;
-  padding: 8px;
+  padding: 0;
 }
 
 #app {

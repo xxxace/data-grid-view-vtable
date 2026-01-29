@@ -1,42 +1,80 @@
 {
   "name": "data-grid-view-vue3",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.5",
+  "description": "基于 vTable 库封装的高性能数据表格组件，类似于 WinForm DataGridView，支持虚拟滚动、实时编辑、多主题等功能。",
+  "keywords": [
+    "vue3",
+    "vtable",
+    "datagrid",
+    "table",
+    "data-visualization",
+    "typescript"
+  ],
+  "author": "Ace",
+  "license": "MIT",
+  "private": false,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "dev": "vite --config vite.config.dev.ts",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "build-types": "tsc --project tsconfig.app.json",
+    "prepublishOnly": "npm run build-only"
   },
-  "dependencies": {
-    "@faker-js/faker": "^9.8.0",
-    "@visactor/vtable-editors": "^1.20.0",
-    "@visactor/vue-vtable": "^1.20.0",
+  "peerDependencies": {
+    "@visactor/vrender": "^1.0.40",
+    "@visactor/vtable-editors": "^1.22.12",
+    "@visactor/vtable-plugins": "^1.22.12",
+    "@visactor/vue-vtable": "^1.22.12",
     "dayjs": "^1.11.13",
     "vue": "^3.5.13"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.8.0",
     "@tsconfig/node22": "^22.0.1",
     "@types/node": "^22.14.0",
-    "@types/tabulator-tables": "^6.2.10",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vitejs/plugin-vue-jsx": "^4.1.2",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.5.0",
+    "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.7.0",
     "eslint": "^9.22.0",
     "eslint-plugin-vue": "~10.0.0",
     "jiti": "^2.4.2",
+    "jsdom": "^24.1.0",
     "npm-run-all2": "^7.0.2",
     "prettier": "3.5.3",
     "sass-embedded": "^1.89.2",
     "typescript": "~5.8.0",
+    "unplugin-dts": "1.0.0-beta.0",
     "vite": "^6.2.4",
+    "vite-plugin-dts": "^4.5.4",
     "vite-plugin-vue-devtools": "^7.7.2",
+    "vitest": "^1.6.0",
     "vue-tsc": "^2.2.8"
-  }
+  },
+  "main": "dist/index.umd.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "style": "dist/index.css",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js",
+      "style": "./dist/index.css"
+    },
+    "./style.css": "./dist/index.css"
+  },
+  "files": [
+    "dist"
+  ]
 }

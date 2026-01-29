@@ -12,14 +12,16 @@ export default defineConfigWithVueTs(
   {
     name: 'app/files-to-lint',
     files: ['**/*.{ts,mts,tsx,vue}'],
-    rules: {
-      '@typescript-eslint/no-explicit-any': false
-    }
   },
 
   globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
 
   pluginVue.configs['flat/essential'],
-  vueTsConfigs.recommended,
+  {
+    ...vueTsConfigs.recommended,
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off'
+    }
+  },
   skipFormatting,
 )
