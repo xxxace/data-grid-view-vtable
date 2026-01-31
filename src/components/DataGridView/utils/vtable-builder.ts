@@ -20,7 +20,8 @@ export function buildVTableOptions(config: {
     columns: columnConfig.columns, // 直接使用，不做额外处理
     records: config.records || [],
     defaultRowHeight: 30,
-    frozenColCount: columnConfig.frozenColCount,
+    // +1是rowheader的占位
+    frozenColCount: columnConfig.frozenColCount + 1,
     rightFrozenColCount: columnConfig.rightFrozenColCount,
     bottomFrozenRowCount: columnConfig.bottomFrozenRowCount,
     showAggregationWhenEmpty: false,
@@ -57,6 +58,7 @@ export function buildVTableOptions(config: {
     rowSeriesNumber: {
       width: 16,
       field: 'rowHeader',
+
       style: {
         textAlign: 'center',
         color: 'transparent',

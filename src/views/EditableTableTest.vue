@@ -50,7 +50,8 @@
     <!-- 数据网格视图 -->
     <div class="table-container">
       <DataGridView ref="gridRef" :columns="columns" :data="tableData" :height="tableHeight" :loading="loading"
-        @cell-edit="onCellEdit" @row-select="onRowSelect" @sort-change="onSortChange" @data-change="onDataChange" />
+        @cell-edit="onCellEdit" @on-dbl-click-cell="onDblClickCell" @data-change="onDataChange"
+        @on-click-cell="onDblClickCell" />
     </div>
 
     <!-- 事件日志 -->
@@ -118,7 +119,7 @@ const columns: DataGridViewColumnsDefine = [
     title: '员工编号',
     width: 100,
     editor: 'input-editor',
-    fixed: 'left'
+    fixed: 'right'
   },
   {
     field: 'avatar',
@@ -367,6 +368,10 @@ function addLog(type: string, message: string) {
   if (eventLogs.value.length > 50) {
     eventLogs.value = eventLogs.value.slice(0, 50)
   }
+}
+
+function onDblClickCell(row) {
+  console.log('dblclick', row)
 }
 
 // 事件处理函数

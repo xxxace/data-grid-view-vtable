@@ -7,13 +7,13 @@
     </div>
 
     <!-- 主表格 -->
-    <ListTable ref="vtableRef" class="vtable-border" :options="options" @ready="onTableReady"
-      @cell_edit_end="onCellEditEnd" @selected_cell="onSelectCell" @onSortClick="onSortClick" />
+    <ListTable ref="vtableRef" class="vtable-border" :options="options" @ready="onTableReady" v-bind="attrs"
+      @onChangeCellValue="onCellEditEnd" @onSelectCell="onSelectCell" @onSortClick="onSortClick" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch, onMounted, onUnmounted } from 'vue'
+import { computed, ref, watch, onMounted, onUnmounted, useAttrs } from 'vue'
 import { ListTable, register } from '@visactor/vue-vtable'
 import { InputEditor, DateInputEditor } from '@visactor/vtable-editors'
 import type { CSSProperties } from 'vue'
@@ -21,15 +21,18 @@ import type { DataGridViewProps, ChangeInfo } from './types/dataGridView'
 import type { VTable } from '@visactor/vue-vtable'
 import { buildVTableOptions, getDimensionValue } from './utils'
 import { DataGridViewDecorator } from './core/DataGridViewDecorator'
+// import { TABLE_EVENTS_KEYS, type EventsProps } from './types/eventUtil'
 
 defineOptions({
   name: 'DataGridView',
+  inheritAttrs: false
 })
 
 // 注册基础编辑器
 register.editor('input-editor', new InputEditor())
 register.editor('date-input-editor', new DateInputEditor())
 
+const attrs = useAttrs()
 // Props 定义 - 简化后的 Props
 const props = withDefaults(defineProps<DataGridViewProps>(), {
   data: () => [],
@@ -90,6 +93,7 @@ function onTableReady() {
 }
 
 function onCellEditEnd(event: any) {
+  console.log('Cell edit end:', event)
   const { row, col, value, oldValue } = event
   const column = processedColumns.value[col]
   const field = String(column?.field || '')
