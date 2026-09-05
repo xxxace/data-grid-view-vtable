@@ -9,7 +9,7 @@ import { HighlightHeaderWhenSelectCellPlugin } from '@visactor/vtable-plugins'
 export function buildVTableOptions(config: {
   theme?: any
   columns: DataGridViewColumnsDefine
-  records: any[]
+  // records: any[]
   height?: string | number
   options?: VTable.ListTableConstructorOptions
 }): VTable.ListTableConstructorOptions {
@@ -18,7 +18,7 @@ export function buildVTableOptions(config: {
   const baseOptions: VTable.ListTableConstructorOptions = {
     theme: getTheme(config.theme),
     columns: columnConfig.columns, // 直接使用，不做额外处理
-    records: config.records || [],
+    // records: config.records || [],
     defaultRowHeight: 30,
     // +1是rowheader的占位
     frozenColCount: columnConfig.frozenColCount + 1,
@@ -85,6 +85,7 @@ export function buildVTableOptions(config: {
       })
     ]
   }
+
   // 直接透传用户配置，让 VTable 原生配置生效
   return {
     ...baseOptions,

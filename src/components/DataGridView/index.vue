@@ -7,8 +7,14 @@
     </div>
 
     <!-- 主表格 -->
-    <ListTable ref="vtableRef" class="vtable-border" :options="options" @ready="onTableReady" v-bind="attrs"
-      @onChangeCellValue="onCellEditEnd" @onSelectCell="onSelectCell" @onSortClick="onSortClick" />
+    <ListTable
+      ref="vtableRef"
+      class="vtable-border"
+      :options="optionsWithRecords"
+      v-bind="attrs"
+      @ready="onTableReady"
+      @cell_edit_end="onCellEditEnd"
+    />
   </div>
 </template>
 
@@ -21,11 +27,9 @@ import type { DataGridViewProps, ChangeInfo } from './types/dataGridView'
 import type { VTable } from '@visactor/vue-vtable'
 import { buildVTableOptions, getDimensionValue } from './utils'
 import { DataGridViewDecorator } from './core/DataGridViewDecorator'
-// import { TABLE_EVENTS_KEYS, type EventsProps } from './types/eventUtil'
 
 defineOptions({
   name: 'DataGridView',
-  inheritAttrs: false
 })
 
 // 注册基础编辑器
@@ -74,10 +78,17 @@ const processedColumns = computed(() => {
 const options = computed(() => {
   return buildVTableOptions({
     columns: processedColumns.value,
-    records: tableData.value,
+    // records: tableData.value,
     height: props.height,
     options: props.options,
   })
+})
+
+const optionsWithRecords = computed(() => {
+  return {
+    ...options.value,
+    records: tableData.value || [],
+  }
 })
 
 const dateGridView = new DataGridViewDecorator({
@@ -93,7 +104,6 @@ function onTableReady() {
 }
 
 function onCellEditEnd(event: any) {
-  console.log('Cell edit end:', event)
   const { row, col, value, oldValue } = event
   const column = processedColumns.value[col]
   const field = String(column?.field || '')
@@ -148,7 +158,7 @@ watch(
 )
 
 // 暴露组件方法
-defineExpose(dateGridView)
+defineExpose(dateGridView as DataGridViewDecorator)
 
 // 生命周期钩子
 onMounted(() => {

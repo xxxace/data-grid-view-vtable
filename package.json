@@ -1,6 +1,6 @@
 {
   "name": "data-grid-view-vue3",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "基于 vTable 库封装的高性能数据表格组件，类似于 WinForm DataGridView，支持虚拟滚动、实时编辑、多主题等功能。",
   "keywords": [
     "vue3",
@@ -12,7 +12,6 @@
   ],
   "author": "Ace",
   "license": "MIT",
-  "private": false,
   "type": "module",
   "scripts": {
     "dev": "vite --config vite.config.dev.ts",
@@ -29,10 +28,10 @@
     "prepublishOnly": "npm run build-only"
   },
   "peerDependencies": {
-    "@visactor/vrender": "^1.0.40",
-    "@visactor/vtable-editors": "^1.22.12",
-    "@visactor/vtable-plugins": "^1.22.12",
-    "@visactor/vue-vtable": "^1.22.12",
+    "@visactor/vrender": "^1.0.41",
+    "@visactor/vtable-editors": "^1.23.3",
+    "@visactor/vtable-plugins": "^1.23.3",
+    "@visactor/vue-vtable": "^1.23.3",
     "dayjs": "^1.11.13",
     "vue": "^3.5.13"
   },
@@ -68,9 +67,9 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
+      "style": "./dist/index.css",
       "import": "./dist/index.es.js",
-      "require": "./dist/index.umd.js",
-      "style": "./dist/index.css"
+      "require": "./dist/index.umd.js"
     },
     "./style.css": "./dist/index.css"
   },

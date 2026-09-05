@@ -14,25 +14,19 @@
       </div>
 
       <div class="control-group">
-        <label>
-          <input type="checkbox" v-model="editable" /> 允许编辑
-        </label>
+        <label> <input type="checkbox" v-model="editable" /> 允许编辑 </label>
       </div>
 
       <div class="control-group">
-        <label>
-          <input type="checkbox" v-model="selectable" /> 允许选择
-        </label>
+        <label> <input type="checkbox" v-model="selectable" /> 允许选择 </label>
       </div>
 
       <div class="control-group">
-        <label>
-          <input type="checkbox" v-model="loading" /> 加载状态
-        </label>
+        <label> <input type="checkbox" v-model="loading" /> 加载状态 </label>
       </div>
 
       <div>
-        <input type="text" @input="handleFilter" placeholder="输入关键字进行过滤">
+        <input type="text" @input="handleFilter" placeholder="输入关键字进行过滤" />
       </div>
     </div>
 
@@ -49,9 +43,18 @@
 
     <!-- 数据网格视图 -->
     <div class="table-container">
-      <DataGridView ref="gridRef" :columns="columns" :data="tableData" :height="tableHeight" :loading="loading"
-        @cell-edit="onCellEdit" @on-dbl-click-cell="onDblClickCell" @data-change="onDataChange"
-        @on-click-cell="onDblClickCell" />
+      <DataGridView
+        ref="gridRef"
+        :columns="columns"
+        :data="tableData"
+        :height="tableHeight"
+        :options="options"
+        :loading="loading"
+        @cell-edit="onCellEdit"
+        @on-dbl-click-cell="onDblClickCell"
+        @data-change="onDataChange"
+        @on-click-cell="onDblClickCell"
+      />
     </div>
 
     <!-- 事件日志 -->
@@ -73,14 +76,29 @@ import { ref, computed, onMounted } from 'vue'
 import { faker } from '@faker-js/faker'
 import DataGridView from '@/components/DataGridView/index.vue'
 import { VTable } from '@visactor/vue-vtable'
-import type { DataGridViewColumnsDefine, ChangeInfo } from '@/components/DataGridView/types/dataGridView'
+import type {
+  DataGridViewColumnsDefine,
+  ChangeInfo,
+} from '@/components/DataGridView/types/dataGridView'
+
+import { getTheme, type DataGridViewInstance } from '@/components/DataGridView/index'
 
 // 响应式数据
 const tableHeight = ref<string | number>('auto')
 const editable = ref(true)
 const selectable = ref(true)
 const loading = ref(false)
-const gridRef = ref<InstanceType<typeof DataGridView>>()
+const gridRef = ref<DataGridViewInstance>()
+
+const options = ref({
+  theme: getTheme()?.extends({
+    bodyStyle: {
+      bgColor: () => {
+        return '#ffc3c3'
+      },
+    },
+  }),
+})
 
 // 事件日志
 const eventLogs = ref<Array<{ time: string; type: string; message: string }>>([])
@@ -93,10 +111,10 @@ const columns: DataGridViewColumnsDefine = [
   //   type: 'radio'
   // },
   {
-    type: 'checkbox'
+    type: 'checkbox',
   },
   {
-    type: 'index'
+    type: 'index',
   },
   // 基础信息列 (A-F)
   {
@@ -105,21 +123,21 @@ const columns: DataGridViewColumnsDefine = [
     width: 50,
     sort: true,
     cellType: 'text',
-    fixed: 'left'
+    fixed: 'left',
   },
   {
     field: 'name',
     title: '姓名',
     width: 120,
     editor: 'input-editor',
-    fixed: 'left'
+    fixed: 'left',
   },
   {
     field: 'code',
     title: '员工编号',
     width: 100,
     editor: 'input-editor',
-    fixed: 'right'
+    fixed: 'right',
   },
   {
     field: 'avatar',
@@ -131,7 +149,7 @@ const columns: DataGridViewColumnsDefine = [
     field: 'gender',
     title: '性别',
     width: 80,
-    cellType: 'text'
+    cellType: 'text',
   },
   {
     field: 'age',
@@ -142,15 +160,16 @@ const columns: DataGridViewColumnsDefine = [
       {
         aggregationType: VTable.TYPES.AggregationType.SUM,
         formatFun(value) {
-          return Math.round(value);
-        }
-      }, {
+          return Math.round(value)
+        },
+      },
+      {
         aggregationType: VTable.TYPES.AggregationType.AVG,
         formatFun(value) {
-          return Math.round(value);
-        }
-      }
-    ]
+          return Math.round(value)
+        },
+      },
+    ],
   },
 
   // 联系方式列 (G-J)
@@ -158,25 +177,25 @@ const columns: DataGridViewColumnsDefine = [
     field: 'email',
     title: '邮箱',
     width: 180,
-    editor: 'input-editor'
+    editor: 'input-editor',
   },
   {
     field: 'phone',
     title: '电话',
     width: 130,
-    editor: 'input-editor'
+    editor: 'input-editor',
   },
   {
     field: 'website',
     title: '网站',
     width: 150,
-    editor: 'input-editor'
+    editor: 'input-editor',
   },
   {
     field: 'address',
     title: '地址',
     width: 200,
-    editor: 'input-editor'
+    editor: 'input-editor',
   },
 
   // 工作信息列 (K-P)
@@ -184,37 +203,37 @@ const columns: DataGridViewColumnsDefine = [
     field: 'department',
     title: '部门',
     width: 100,
-    cellType: 'text'
+    cellType: 'text',
   },
   {
     field: 'position',
     title: '职位',
     width: 120,
-    cellType: 'text'
+    cellType: 'text',
   },
   {
     field: 'level',
     title: '级别',
     width: 80,
-    cellType: 'text'
+    cellType: 'text',
   },
   {
     field: 'joinDate',
     title: '入职日期',
     width: 120,
-    editor: 'date-input-editor'
+    editor: 'date-input-editor',
   },
   {
     field: 'workYears',
     title: '工作年限',
     width: 100,
-    editor: 'input-editor'
+    editor: 'input-editor',
   },
   {
     field: 'manager',
     title: '直属经理',
     width: 120,
-    editor: 'input-editor'
+    editor: 'input-editor',
   },
 
   // 薪资绩效列 (Q-T)
@@ -228,19 +247,19 @@ const columns: DataGridViewColumnsDefine = [
     field: 'bonus',
     title: '奖金',
     width: 100,
-    editor: 'input-editor'
+    editor: 'input-editor',
   },
   {
     field: 'performance',
     title: '绩效',
     width: 80,
-    editor: 'input-editor'
+    editor: 'input-editor',
   },
   {
     field: 'progress',
     title: '进度',
     width: 80,
-    editor: 'input-editor'
+    editor: 'input-editor',
   },
 
   // 状态控制列 (U-X)
@@ -248,19 +267,19 @@ const columns: DataGridViewColumnsDefine = [
     field: 'status',
     title: '状态',
     width: 80,
-    cellType: 'text'
+    cellType: 'text',
   },
   {
     field: 'isActive',
     title: '激活',
     width: 80,
-    cellType: 'checkbox'
+    cellType: 'checkbox',
   },
   {
     field: 'priority',
     title: '优先级',
     width: 80,
-    cellType: 'text'
+    cellType: 'text',
   },
 
   // 时间记录列 (Y-Z)
@@ -268,21 +287,21 @@ const columns: DataGridViewColumnsDefine = [
     field: 'createTime',
     title: '创建时间',
     width: 150,
-    sort: true
+    sort: true,
   },
   {
     field: 'updateTime',
     title: '更新时间',
     width: 150,
-    sort: true
+    sort: true,
   },
   {
     field: 'actions',
     title: '操作',
     width: 100,
     cellType: 'link',
-    fixed: 'right'
-  }
+    fixed: 'right',
+  },
 ]
 
 // 表格数据
@@ -298,7 +317,15 @@ const handleFilter = (e) => {
 function generateTestData(count: number = 50): Array<Record<string, any>> {
   const data: Array<Record<string, any>> = []
   const departments = ['tech', 'product', 'operation', 'marketing', 'hr', 'finance', 'sales']
-  const positions = ['前端开发', '后端开发', '产品经理', '运营专员', 'UI设计师', '数据分析师', '项目经理']
+  const positions = [
+    '前端开发',
+    '后端开发',
+    '产品经理',
+    '运营专员',
+    'UI设计师',
+    '数据分析师',
+    '项目经理',
+  ]
   const levels = ['junior', 'middle', 'senior', 'expert', 'architect']
   const statuses = ['active', 'inactive', 'trial', 'leave']
   const genders = ['male', 'female', 'other']
@@ -349,7 +376,7 @@ function generateTestData(count: number = 50): Array<Record<string, any>> {
 
       // 时间记录列 (Y-Z)
       createTime: createTime.toISOString(),
-      updateTime: updateTime.toISOString()
+      updateTime: updateTime.toISOString(),
     })
   }
 
@@ -361,7 +388,7 @@ function addLog(type: string, message: string) {
   eventLogs.value.unshift({
     time: new Date().toLocaleTimeString(),
     type,
-    message
+    message,
   })
 
   // 限制日志条数
@@ -394,7 +421,9 @@ function onDataChange(newData: any[], changeType: string, changeInfo: ChangeInfo
 // 操作函数
 function addRandomRow() {
   const newRow: any = generateTestData(1)[0]
-  const maxId = Math.max(...gridRef.value?.getTableData()?.fullData.map((row: any) => row.id), 0)
+  const tableData = gridRef.value?.getTableData()
+  const ids = tableData?.fullData.map((row: any) => row.id) || []
+  const maxId = Math.max(...ids, 0)
   newRow.id = maxId + 1
   newRow.createTime = new Date().toISOString()
   newRow.updateTime = new Date().toISOString()
@@ -420,7 +449,10 @@ function removeSelectedRows() {
     const removeRowTime = endTime - startTime
 
     addLog('action', `删除了 ${selectedRows.length} 行数据`)
-    addLog('performance', `getCheckboxRecords耗时: ${getCheckboxTime.toFixed(2)}ms, removeRow耗时: ${removeRowTime.toFixed(2)}ms`)
+    addLog(
+      'performance',
+      `getCheckboxRecords耗时: ${getCheckboxTime.toFixed(2)}ms, removeRow耗时: ${removeRowTime.toFixed(2)}ms`,
+    )
   } else {
     addLog('warning', '没有选中任何行')
     addLog('performance', `getCheckboxRecords耗时: ${getCheckboxTime.toFixed(2)}ms`)

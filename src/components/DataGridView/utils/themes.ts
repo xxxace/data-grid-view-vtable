@@ -43,6 +43,6 @@ const MINI_ARCO = VTable.themes.ARCO.extends({
   }
 })
 
-export function getTheme(theme) {
+export function getTheme(theme?: string): VTable.themes.TableTheme | undefined {
   return !theme || theme === 'default' ? MINI_ARCO : VTable.themes[theme]
 }
